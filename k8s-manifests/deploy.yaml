@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sandbox-admission-controller
+  labels:
+    app: sandbox-admission-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sandbox-admission-controller
+  template:
+    metadata:
+      labels:
+        app: sandbox-admission-controller
+    spec:
+      containers:
+      - name: sandbox-admission-controller
+        image: "preparesh.azurecr.io/admission:0.08"
+        ports:
+        - containerPort: 8443
+            resources:
+        requests:
+          memory: "128Mi"
+          cpu: "250m"
+        limits:
+          memory: "256Mi"
+          cpu: "500m"
+      imagePullSecrets:
+      - name: registry

@@ -1,0 +1,19 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: admission-controller-webhook
+webhooks:
+  - name: admission-controller.preparesh.com
+    clientConfig:
+      service:
+        name: admission-controller
+        namespace: default
+        path: /validate
+      caBundle: <base 64 encoded CA>
+    rules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+    admissionReviewVersions: ["v1"]
+    sideEffects: None
